@@ -1,0 +1,1 @@
+- always prefer nest CLI generated code over writing your own
