@@ -13,9 +13,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin:
-      process.env.NODE_ENV === 'production'
-        ? ['https://yourdomain.com']
-        : ['http://localhost:3000', 'http://localhost:4200'],
+      process.env.NODE_ENV === 'production' ? ['https://domain.com'] : true,
     credentials: process.env.NODE_ENV === 'production',
   });
 
@@ -27,14 +25,14 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  const port = configService.get('APP_PORT') || 3000;
-  const ip = 'localhost';
+  const port = configService.get('APP_PORT');
+  const ip = configService.get('IP');
 
   await app.listen(port);
   logger.log(`Application is running on: http://${ip}:${port}`);
 
   setInterval(() => {
     logger.debug(`App is running ${ip}:${port}`);
-  }, 1000);
+  }, 10_000);
 }
 bootstrap();
